@@ -6,7 +6,7 @@ import os
 
 config = {
     "transmission_configuration": "/etc/transmission-daemon/settings.json",
-    "vpn_interface": "tun0",
+    "wanted_password": "myNewPasswordChangeMe"
 }
 
 """
@@ -30,7 +30,15 @@ if __name__ == "__main__":
     transmission = get_transmission_config()
     
     # Change the settings we want.
-    transmission["bind-address-ipv6"] = "fe80::"
+    transmission["bind-address-ipv6"] = "fe80::" # do not use ipv6
+    transmission["encryption"] = 2 # Require encryption
+    transmission["port-forwarding-enabled"] = False # do not automatically port forward
+    transmission["rpc-whitelist-enabled"] = False # do not whitelist so we can access everywhere
+    transmission["rpc-password"] = config["wanted_password"] # Change to the config password
+    
+    # Enable seed ratios
+    transmission["idle-seeding-limit-enabled"] = True
+    transmission["ratio-limit-enabled"] = True
     
     # Save the configuration
     write_transmission_config(transmission)
