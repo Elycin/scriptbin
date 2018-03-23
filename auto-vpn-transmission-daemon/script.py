@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import json
-import netifaces as ni
+import netifaces
 import os
 
 config = {
@@ -26,7 +26,7 @@ def write_transmission_config(transmission_config):
 
 def get_interface_address():
     global config
-    return ni.ifaddresses(config["vpn_interface"])[ni.AF_INET][0]['addr']
+    return netifaces.ifaddresses(config["vpn_interface"])[ni.AF_INET][0]['addr']
 
 if __name__ == "__main__":
     os.system("service transmission-daemon stop")
