@@ -29,9 +29,19 @@ def get_interface_address():
     return netifaces.ifaddresses(config["vpn_interface"])[ni.AF_INET][0]['addr']
 
 if __name__ == "__main__":
+    # Stop the transmission serivce
     os.system("service transmission-daemon stop")
+    
+    # Get the configuration
     transmission = get_transmission_config()
+    
+    # Change the addresses - use ipv4 only
     transmission["bind-address-ipv4"] = get_interface_address()
+    transmission["bind-address-ipv6"] = "fe80::"
+    
+    # Save the configuration
     write_transmission_config(transmission)
-    os.system("service_transmission-daemon start")
+    
+    # Start the service and exit
+    os.system("service transmission-daemon start")
     exit()
