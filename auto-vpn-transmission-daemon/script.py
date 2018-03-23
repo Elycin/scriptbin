@@ -1,5 +1,6 @@
 import json
 import netifaces as ni
+iimport os
 
 config = {
     "transmission_configuration": "/etc/transmission-daemon/settings.json",
@@ -19,7 +20,9 @@ def get_interface_address():
     return ni.ifaddresses(config["vpn_interface"])[ni.AF_INET][0]['addr']
 
 if __name__ == "__main__":
+    os.system("service transmission-daemon stop")
     transmission = get_transmission_config()
     transmission["bind-address-ipv4"] = get_interface_address()
     write_transmission_config(transmission)
+    os.system("service_transmission-daemon start")
     exit()
