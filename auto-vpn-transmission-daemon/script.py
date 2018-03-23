@@ -1,6 +1,16 @@
+#!/usr/bin/env python
+
+
+"""
+Automatic VPN for Transmission Daemon
+
+This script was created in conjunction with OpenVPN to automatically reconfigure the interface that torrenting will occur on.
+Please configure your settings.json beforehand, as this script only makes changes to the bound ipv4 address\
+"""
+
 import json
 import netifaces as ni
-iimport os
+import os
 
 config = {
     "transmission_configuration": "/etc/transmission-daemon/settings.json",
