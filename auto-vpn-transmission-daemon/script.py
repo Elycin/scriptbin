@@ -26,7 +26,7 @@ def write_transmission_config(transmission_config):
 
 def get_interface_address():
     global config
-    return netifaces.ifaddresses(config["vpn_interface"])[ni.AF_INET][0]['addr']
+    return netifaces.ifaddresses(config["vpn_interface"])[netifaces.AF_INET][0]['addr']
 
 if __name__ == "__main__":
     # Stop the transmission serivce
