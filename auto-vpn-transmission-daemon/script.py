@@ -10,10 +10,10 @@ config = {
 }
 
 """
-Automatic VPN for Transmission Daemon
+Automatic VPN configuration for Transmission Daemon
 
 This script was created in conjunction with OpenVPN to automatically reconfigure the interface that torrenting will occur on.
-Please configure your settings.json beforehand, as this script only makes changes to the bound ipv4 address\
+Please configure your settings.json beforehand, as this script only makes changes to the bound ipv4 address
 """
 
 def get_transmission_config():
