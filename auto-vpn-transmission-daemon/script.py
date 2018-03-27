@@ -43,7 +43,9 @@ if __name__ == "__main__":
     transmission = get_transmission_config()
     
     # Change the addresses - use ipv4 only
-    transmission["bind-address-ipv4"] = get_interface_address()
+    new_address = get_interface_address()
+    print("The VPN is listening on %s", new_address)
+    transmission["bind-address-ipv4"] = new_address
     transmission["bind-address-ipv6"] = "fe80::"
     
     # Save the configuration
