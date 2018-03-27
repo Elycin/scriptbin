@@ -3,6 +3,8 @@
 import json
 import netifaces
 import os
+import time
+
 
 config = {
     "transmission_configuration": "/etc/transmission-daemon/settings.json",
@@ -26,8 +28,13 @@ def write_transmission_config(transmission_config):
 
 def get_interface_address():
     global config
-    return netifaces.ifaddresses(config["vpn_interface"])[netifaces.AF_INET][0]['addr']
-
+    while True:
+        try:
+            return netifaces.ifaddresses(config["vpn_interface"])[netifaces.AF_INET][0]['addr']
+        except:
+            print("interface hasn't connected yet, please wait.")
+            time.sleep(1)
+        
 if __name__ == "__main__":
     # Stop the transmission serivce
     os.system("service transmission-daemon stop")
