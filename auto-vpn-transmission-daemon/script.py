@@ -40,7 +40,7 @@ if __name__ == "__main__":
     
     # Get the new address, hang until connected.
     new_address = get_interface_address()
-     print("The VPN is listening on %s" % new_address)
+    print("The VPN is listening on %s" % new_address)
     
     # Check if the address needs to be changed.
     if transmission["bind-address-ipv4"] != new_address:
