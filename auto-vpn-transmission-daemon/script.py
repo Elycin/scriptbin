@@ -35,21 +35,37 @@ def get_interface_address():
             time.sleep(1)
         
 if __name__ == "__main__":
-    # Stop the transmission serivce
-    os.system("service transmission-daemon stop")
-    
     # Get the configuration
     transmission = get_transmission_config()
     
-    # Change the addresses - use ipv4 only
+    # Get the new address, hang until connected.
     new_address = get_interface_address()
-    print("The VPN is listening on %s" % new_address)
-    transmission["bind-address-ipv4"] = new_address
-    transmission["bind-address-ipv6"] = "fe80::"
+     print("The VPN is listening on %s" % new_address)
     
-    # Save the configuration
-    write_transmission_config(transmission)
-    
-    # Start the service and exit
-    os.system("service transmission-daemon start")
+    # Check if the address needs to be changed.
+    if transmission["bind-address-ipv4"] != new_address:
+        print("Transmission is bound to an old address, will change...")
+        
+        # Stop the transmission serivce.
+        os.system("service transmission-daemon stop")
+        
+        # Change IPv4.
+        transmission["bind-address-ipv4"] = new_address
+        
+        # Write to the configuration and restart
+        write_transmission_config(transmission)
+        os.system("service transmission-daemon start")
+        
+    if transmission["bind-address-ipv6"] != "fe80::":
+        # Stop Transmission, again.
+        os.system("service transmission-daemon stop")
+        
+        # Enforce no IPv6.
+        print("Disabling IPv6 Usage...")
+        transmission["bind-address-ipv6"] = "fe80::"
+        
+        # Write to the configuration and restart
+        write_transmission_config(transmission)
+        os.system("service transmission-daemon start")
+
     exit()
